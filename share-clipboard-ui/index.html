@@ -14,7 +14,7 @@
     <script>
         window.onload = function () {
             //获取数据
-            $.get("http://60.165.126.194:81/dataObjects", function (data) {
+            $.get("http://60.165.126.194:81/api/dataObjects?sort=timestamp,asc", function (data) {
 
                 // alert(JSON.stringify(data._embedded.dataObjects));
                 dataobjects = data._embedded.dataObjects;
@@ -69,7 +69,7 @@
                 var sVal = oMsg.value;
                 $.ajax({
                     type: 'POST',
-                    url: 'http://60.165.126.194:81/dataObjects',
+                    url: 'http://60.165.126.194:81/api/dataObjects',
                     data: JSON.stringify({
                         'content': sVal,
                         'timestamp': Date.now()
