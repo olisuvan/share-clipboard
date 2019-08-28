@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <title>剪贴板 - 非隐私共享剪贴板</title>
+
+
+    <script>
+        window.onload = function () {
+            //获取数据
+            $.get("http://60.165.126.194:81/dataObjects", function (data) {
+
+                // alert(JSON.stringify(data._embedded.dataObjects));
+                dataobjects = data._embedded.dataObjects;
+                for (i in dataobjects) {
+
+                    var sVal = dataobjects[i].content;
+
+                    var oli = document.createElement("div");
+                    if (sVal.length > 0) {
+
+                        oli.innerHTML = "<div class=\"main shadow-sm p-3 mb-5 bg-white rounded\">" + sVal + "<div class=\" float_div\"><button type=\"button\" class=\"btn btn-outline-primary\" data-clipboard-action=\"copy\" data-clipboard-text=\"" + sVal + "\" data-container=\"body\" data-toggle=\"popover\" data-placement=\"right\" data-content=\"Vivamus sagittis lacus vel augue laoreet rutrum faucibus.\">拷贝 </button></div></div>";
+                        var oli1 = oUl.getElementsByTagName("div");
+                        if (oli1.length > 0) {
+                            oUl.insertBefore(oli, oli1[0]);
+                        } else {
+                            oUl.appendChild(oli);
+                        }
+
+                        var oSpan = document.getElementsByTagName("button");
+
+                        for (var index = 0; index < oSpan.length; index++) {
+                            oSpan[index].onclick = function () {
+
+
+                                //oUl.removeChild(this.parentNode);
+                                //alert(this.parentNode.getElementsByTagName("a")[0].innerText);
+                                //alert("Copied");
+                                var clipboard = new ClipboardJS('.btn');
+
+                                clipboard.on('success', function (e) {
+                                    console.log(e);
+                                });
+
+                                clipboard.on('error', function (e) {
+                                    console.log(e);
+                                    alert(e);
+                                });
+                            }
+
+                        }
+                    }
+                }
+            });
+
+
+            var oMsg = document.getElementById("msg");
+            var oBtn = document.getElementById("btn1");
+            var oMsg_c = document.getElementById("msg_c");
+            var oUl = document.createElement("div");
+            oMsg_c.appendChild(oUl);
+            oBtn.onclick = function () {
+                var sVal = oMsg.value;
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://60.165.126.194:81/dataObjects',
+                    data: JSON.stringify({
+                        'content': sVal,
+                        'timestamp': Date.now()
+                    }),
+                    dataType: 'json',
+                    contentType: "application/json"
+                });
+
+                var oli = document.createElement("div");
+                if (sVal.length > 0) {
+
+                    oli.innerHTML = "<div class=\"main shadow-sm p-3 mb-5 bg-white rounded\">" + sVal + "<div class=\" float_div\"><button type=\"button\" class=\"btn btn-outline-primary\" data-clipboard-action=\"copy\" data-clipboard-text=\"" + sVal + "\" data-container=\"body\" data-toggle=\"popover\" data-placement=\"right\" data-content=\"Vivamus sagittis lacus vel augue laoreet rutrum faucibus.\">拷贝 </button></div></div>";
+                    var oli1 = oUl.getElementsByTagName("div");
+                    if (oli1.length > 0) {
+                        oUl.insertBefore(oli, oli1[0]);
+                    } else {
+                        oUl.appendChild(oli);
+                    }
+                    oMsg.value = '';
+                    var oSpan = document.getElementsByTagName("button");
+
+                    for (var index = 0; index < oSpan.length; index++) {
+                        oSpan[index].onclick = function () {
+
+
+                            //oUl.removeChild(this.parentNode);
+                            //alert(this.parentNode.getElementsByTagName("a")[0].innerText);
+                            //alert("Copied");
+                            var clipboard = new ClipboardJS('.btn');
+
+                            clipboard.on('success', function (e) {
+                                console.log(e);
+                            });
+
+                            clipboard.on('error', function (e) {
+                                console.log(e);
+                                alert(e);
+                            });
+                        }
+
+                    }
+
+                }
+            }
+
+
+        }
+
+    </script>
+
+
+</head>
+<body>
+<div class="container">
+    <!-- Content here -->
+
+
+    <h1>剪贴板</h1>
+    <input id="msg" type="text" size="40" value="">
+    <input id="btn1" type="button" value="粘贴/发布">
+    <div>
+        <div id="msg_c"></div>
+    </div>
+
+</div>
+
+
+<script src="./clipboard.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

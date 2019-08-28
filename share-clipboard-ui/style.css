@@ -1,0 +1,28 @@
+li {
+	margin:10px;
+}
+
+.waterfall{
+    -moz-column-count:4; /* Firefox */
+    -webkit-column-count:4; /* Safari 和 Chrome */
+    column-count:4;
+    -moz-column-gap: 30px;
+    -webkit-column-gap: 30px;
+    column-gap: 30px;
+　　display:inline-block;
+}
+
+.main{
+  width:200px;
+  height:200px;
+ position:relative;
+ 
+}
+.float_div{
+ position:absolute;
+margin:3px;
+right:0px;
+top:0px;
+z-index:100;
+ 
+}
